@@ -68,11 +68,15 @@ void main(int argc, char *argv[]) {
     }
 
     fscanf(f1, "%d", &elekop);
-    if (argc == 4) elekop = atoi(argv[3]);   // 4. parametroa = prozesatu behar diren elementuen kopurua
+    if (argc == 4) {
+        elekop = atoi(argv[3]);   // 4. parametroa = prozesatu behar diren elementuen kopurua
+    }
 
-    for (i = 0; i < elekop; i++)
-        for (j = 0; j < ALDAKOP; j++)
+    for (i = 0; i < elekop; i++) {
+        for (j = 0; j < ALDAKOP; j++) {
             fscanf(f1, "%f", &(elem[i][j]));        // elementuen zerrenda, ALDAKOP aldagaikoak
+        }
+    }
 
     fclose(f1);
 
@@ -82,9 +86,11 @@ void main(int argc, char *argv[]) {
         exit(-1);
     }
 
-    for (i = 0; i < elekop; i++)
-        for (j = 0; j < ERIMOTA; j++)
+    for (i = 0; i < elekop; i++) {
+        for (j = 0; j < ERIMOTA; j++) {
             fscanf(f1, "%f", &(eri[i][j]));        // eritasunei buruzko informazioa
+        }
+    }
 
     fclose(f1);
 
@@ -96,11 +102,12 @@ void main(int argc, char *argv[]) {
     //==================================
 
     srand(147);
-    for (i = 0; i < TALDEKOP; i++)
+    for (i = 0; i < TALDEKOP; i++) {
         for (j = 0; j < ALDAKOP / 2; j++) {
             zent[i][j] = (rand() % 10000) / 100.0;
             zent[i][j + ALDAKOP / 2] = zent[i][j];
         }
+    }
 
 
 
