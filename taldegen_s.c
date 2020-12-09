@@ -118,24 +118,29 @@ void main(int argc, char *argv[]) {
         // kalkulatu talde bakoitzeko zentroide berriak: dimentsio bakoitzeko batezbestekoa
         // baturak: 100 aldagaien balioak akumulatzeko; azkena kopurua da.
 
-        for (i = 0; i < TALDEKOP; i++)
-            for (j = 0; j < ALDAKOP + 1; j++)
+        for (i = 0; i < TALDEKOP; i++) {
+            for (j = 0; j < ALDAKOP + 1; j++) {
                 baturak[i][j] = 0.0;
+            }
+        }
 
         bukatu = 1;
         for (i = 0; i < TALDEKOP; i++) {
-            if (baturak[i][ALDAKOP] > 0)        // taldea ez dago hutsik
-            {
-                for (j = 0; j < ALDAKOP; j++)
+            if (baturak[i][ALDAKOP] > 0) {      // taldea ez dago hutsik
+                for (j = 0; j < ALDAKOP; j++) {
                     zentberri[i][j] = baturak[i][j] / baturak[i][ALDAKOP];
+                }
 
                 // erabaki bukatu behar den
                 diszent = distantzia_genetikoa(&zentberri[i][0], &zent[i][0]);
-                if (diszent > DELTA) bukatu = 0;    // dimentsio batean aldaketa dago; segi simulazioarekin
+                if (diszent > DELTA) {
+                    bukatu = 0;    // dimentsio batean aldaketa dago; segi simulazioarekin
+                }
 
                 // kopiatu zentroide berriak
-                for (j = 0; j < ALDAKOP; j++)
+                for (j = 0; j < ALDAKOP; j++) {
                     zent[i][j] = zentberri[i][j];
+                }
             }
         }
 
@@ -149,7 +154,9 @@ void main(int argc, char *argv[]) {
     //           eta analizatu eritasunak
     // ========================================================================================
 
-    for (i = 0; i < TALDEKOP; i++) kideak[i].kop = 0;
+    for (i = 0; i < TALDEKOP; i++) {
+        kideak[i].kop = 0;
+    }
 
     // elementuen kopurua eta sailkapena
 
@@ -192,8 +199,9 @@ void main(int argc, char *argv[]) {
     }
 
     fprintf(f2, "\n\n Taldeen elementu kopurua eta trinkotasuna\n\n");
-    for (i = 0; i < TALDEKOP; i++)
+    for (i = 0; i < TALDEKOP; i++) {
         fprintf(f2, " %6d  %.3f \n", kideak[i].kop, trinko[i]);
+    }
 
     fprintf(f2, "\n\n Eritasunen analisia\n\n");
     fprintf(f2, "\n Erit.   Max - Tald    Min - Tald");
