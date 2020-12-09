@@ -22,10 +22,9 @@
 ******************************************************************************************/
 
 double distantzia_genetikoa(float *elem1, float *elem2) {
-
     // EGITEKO
     // kalkulatu bi elementuren arteko distantzia (euklidearra)
-
+    return sqrtf(powf(*elem1, 2) + powf(*elem2, 2));
 }
 
 
@@ -38,7 +37,6 @@ double distantzia_genetikoa(float *elem1, float *elem2) {
 ******************************************************************************************/
 
 void talde_gertuena(int elekop, float elem[][ALDAKOP], float zent[][ALDAKOP], int *sailka) {
-
     // EGITEKO
     // sailka: elementu bakoitzaren zentroide hurbilena, haren "taldea"
 
