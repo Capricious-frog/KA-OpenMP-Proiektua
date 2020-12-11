@@ -1,16 +1,16 @@
-/* 
-    KA - Lan praktikoa
+/*  KA, Konputagailuen Arkitektura - Informatika Ingeniaritza, 2. maila
+    OpenMP laborategia - PROIEKTUA
+
     taldegen_s.c     SERIEKO BERTSIOA
 
     Informazio genetikoa prozesatzea eritasunei buruzko informazioa lortzeko
     ALDAKOP aldagaiko elementuak, TALDEKOP taldetan sailkatzeko, "distantzien" arabera
 
-    Sarrera: dbgen.dat       informazio genetikoa duen fitxategia (211640 elementu, 40 aldagai)
-             dberi.dat       eritasunei buruzko informazioa duen fitxategia (20 eritasun)
-    Irteera: emaitza_s.out   zentroideak (100), taldeen tamaina eta trinkotasuna, eritasunak
+    Sarrera: dbgen.dat      informazio genetikoa duen fitxategia (211640 elementu, 40 aldagai)
+             dberi.dat      eritasunei buruzko informazioa duen fitxategia (20 eritasun)
+    Irteera: emaitza_s.out  zentroideak (100), taldeen tamaina eta trinkotasuna, eritasunak
 
     funtg_s.c moduluarekin konpilatu;  -lm aukera gehitu
-
 *****************************************************************************************/
 
 
@@ -22,11 +22,11 @@
 #include "funtg.h"              // programan deitzen diren funtzioak
 
 
-float elem[EMAX][ALDAKOP];    // prozesatu behar diren elementuak (dbgen.dat fitxategian)
-struct tinfo kideak[TALDEKOP];        // talde bakoitzeko kideen zerrenda
+float elem[EMAX][ALDAKOP];      // prozesatu behar diren elementuak (dbgen.dat fitxategian)
+struct tinfo kideak[TALDEKOP];         // talde bakoitzeko kideen zerrenda
 
-float eri[EMAX][ERIMOTA];   // eritasunetako probabilitateak (dberi.dat fitxategian)
-struct analisia eripro[ERIMOTA];      // eritasunen probabilitate maximoa, minimoa...
+float eri[EMAX][ERIMOTA];    // eritasunetako probabilitateak (dberi.dat fitxategian)
+struct analisia eripro[ERIMOTA];       // eritasunen probabilitate maximoa, minimoa...
 
 
 
@@ -37,10 +37,10 @@ struct analisia eripro[ERIMOTA];      // eritasunen probabilitate maximoa, minim
 void main(int argc, char *argv[]) {
     float zent[TALDEKOP][ALDAKOP], zentberri[TALDEKOP][ALDAKOP];   // kalkulatzen diren zentroideak (taldeak)
     double baturak[TALDEKOP][ALDAKOP + 1];
-    float trinko[TALDEKOP];                       // talde bakoitzeko trinkotasuna
+    float trinko[TALDEKOP];        // talde bakoitzeko trinkotasuna
 
     int i, j, elekop, taldea;
-    int sailka[EMAX];        //  elementu bakoitzeko taldea;
+    int sailka[EMAX];            // elementu bakoitzeko taldea
     int bukatu = 0, iterkop = 0;
     double diszent;
 
@@ -58,8 +58,8 @@ void main(int argc, char *argv[]) {
     clock_gettime(CLOCK_REALTIME, &t1);
 
 
-    // irakurri datuak fitxategietatik: elem[i][j], eri[i][j]
-    // ======================================================
+    // irakurri datuak fitxategietatik: elem[i][j] eta eri[i][j]
+    // =========================================================
 
     f1 = fopen(argv[1], "r");
     if (f1 == NULL) {
@@ -69,7 +69,7 @@ void main(int argc, char *argv[]) {
 
     fscanf(f1, "%d", &elekop);
     if (argc == 4) {
-        elekop = atoi(argv[3]);   // 4. parametroa = prozesatu behar diren elementuen kopurua
+        elekop = atoi(argv[3]);    // 4. parametroa = prozesatu behar diren elementuen kopurua
     }
 
     for (i = 0; i < elekop; i++) {
@@ -91,15 +91,13 @@ void main(int argc, char *argv[]) {
             fscanf(f1, "%f", &(eri[i][j]));        // eritasunei buruzko informazioa
         }
     }
-
     fclose(f1);
 
     clock_gettime(CLOCK_REALTIME, &t2);
 
 
-
     // aukeratu lehen zentroideak, ausaz
-    //==================================
+    // =================================
 
     srand(147);
     for (i = 0; i < TALDEKOP; i++) {
@@ -108,8 +106,6 @@ void main(int argc, char *argv[]) {
             zent[i][j + ALDAKOP / 2] = zent[i][j];
         }
     }
-
-
 
     // 1. fasea: kalkulatu zentroideak eta sailkatu elementuak
     // =======================================================
@@ -131,9 +127,19 @@ void main(int argc, char *argv[]) {
             }
         }
 
+        for (i = 0; i < elekop; i++) {
+            for (j = 0; j < ALDAKOP; j++) {
+                baturak[sailka[i]][j] += elem[i][j];
+            }
+            baturak[sailka[i]][ALDAKOP]++;    // azken osagaia (ALDAKOP) kopuruak gordetzeko
+        }
+
+        // kalkulatu zentroide berriak eta erabaki bukatu den, DELTAren arabera
+
         bukatu = 1;
         for (i = 0; i < TALDEKOP; i++) {
-            if (baturak[i][ALDAKOP] > 0) {      // taldea ez dago hutsik
+            if (baturak[i][ALDAKOP] > 0) {        // taldea ez dago hutsik
+
                 for (j = 0; j < ALDAKOP; j++) {
                     zentberri[i][j] = baturak[i][j] / baturak[i][ALDAKOP];
                 }
@@ -165,7 +171,7 @@ void main(int argc, char *argv[]) {
         kideak[i].kop = 0;
     }
 
-    // elementuen kopurua eta sailkapena
+    // talde bakoitzeko elementuak (osagaiak) eta kopurua
 
     for (i = 0; i < elekop; i++) {
         taldea = sailka[i];
@@ -195,13 +201,15 @@ void main(int argc, char *argv[]) {
 
     f2 = fopen("emaitzak_s.out", "w");
     if (f2 == NULL) {
-        printf("Errorea %s fitxategia irekitzean\n", argv[1]);
+        printf("Errorea emaitzak_s.out fitxategia irekitzean\n");
         exit(-1);
     }
 
     fprintf(f2, " Taldeen zentroideak\n\n");
     for (i = 0; i < TALDEKOP; i++) {
-        for (j = 0; j < ALDAKOP; j++) fprintf(f2, "%7.3f", zentberri[i][j]);
+        for (j = 0; j < ALDAKOP; j++) {
+            fprintf(f2, "%7.3f", zent[i][j]);
+        }
         fprintf(f2, "\n");
     }
 
@@ -247,13 +255,17 @@ void main(int argc, char *argv[]) {
     printf("\n  0, 40 eta 80 zentroideak eta haien trinkotasuna\n");
     for (i = 0; i < TALDEKOP; i += 40) {
         printf("\n  z%2d -- ", i);
-        for (j = 0; j < ALDAKOP; j++) printf("%5.1f", zent[i][j]);
+        for (j = 0; j < ALDAKOP; j++) {
+            printf("%5.1f", zent[i][j]);
+        }
         printf("\n          %5.6f\n", trinko[i]);
     }
 
     printf("\n >> Taldeen tamaina \n");
     for (i = 0; i < 10; i++) {
-        for (j = 0; j < 10; j++) printf("%7d", kideak[10 * i + j].kop);
+        for (j = 0; j < 10; j++) {
+            printf("%7d", kideak[10 * i + j].kop);
+        }
         printf("\n");
     }
 
