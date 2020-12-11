@@ -24,7 +24,13 @@
 double distantzia_genetikoa(float *elem1, float *elem2) {
     // EGITEKO
     // kalkulatu bi elementuren arteko distantzia (euklidearra)
-    return sqrtf(powf(*elem1, 2) + powf(*elem2, 2));
+    double dist = 0;
+
+    for (int i; i < ALDAKOP; i++) {
+        dist += pow((double) (&elem1[i] - &elem2[i]), 2);
+    }
+
+    return sqrt(dist);
 }
 
 
@@ -39,7 +45,21 @@ double distantzia_genetikoa(float *elem1, float *elem2) {
 void talde_gertuena(int elekop, float elem[][ALDAKOP], float zent[][ALDAKOP], int *sailka) {
     // EGITEKO
     // sailka: elementu bakoitzaren zentroide hurbilena, haren "taldea"
+    double dg;
+    double dg_min;
+    int pos = 0;
 
+    for (int i = 0; i < elekop; i++) {
+        dg_min = DBL_MIN;
+        for (int j = 0; j < ALDAKOP; j++) {
+            dg = distantzia_genetikoa(elem[i], elem[j]);
+            if (dg_min > dg) {
+                dg_min = dg;
+                pos = j;
+            }
+        }
+        sailka[i] = pos;
+    }
 }
 
 
@@ -52,22 +72,31 @@ void talde_gertuena(int elekop, float elem[][ALDAKOP], float zent[][ALDAKOP], in
 ******************************************************************************************/
 
 void talde_trinkotasuna(float elem[][ALDAKOP], struct tinfo *kideak, float *trinko) {
-
     // EGITEKO
-    // Kalkulatu taldeen trinkotasuna: kideen arteko distantzien batezbestekoa
+    // Kalkulatu taldeen trinkotasuna: kideen arteko distantzien batezbesteko
+    double batez_bestekoa;
 
+    for (int i = 0; i < TALDEKOP; i++) {
+        batez_bestekoa = 0;
+
+        for (int j = 0; j < kideak[i].kop; j++) {
+            for (int k = 0; k < kideak[i].kop; k++) {
+                batez_bestekoa += distantzia_genetikoa(elem[kideak[i].osagaiak[j]], elem[kideak[i].osagaiak[k]]);
+            }
+        }
+        trinko[i] = (float) (batez_bestekoa / pow(kideak[i].kop, 2)); //Puede que este mal
+    }
 }
 
 
 /* 4 - Eritasunak analizatzeko funtzioa
 
        Sarrera:  kideak  taldekideen zerrenda (TALDEKOP tamainako struct-bektore bat: elem eta kop)
-                 eri     eritasunei buruzko informazioa (TALDEKOP x ERIMOTA)
+                 eri     eritasunei buruzko informazioa (EMAX x ERIMOTA)
        Irteera:  eripro  eritasunen analisia: maximoa/minimoa, eta taldeak
 ******************************************************************************************/
 
-void eritas_analisia(struct tinfo *kideak, float eri[][ERIMOTA], struct analisia *eripro) {
-
+void eritasun_analisia(struct tinfo *kideak, float eri[][ERIMOTA], struct analisia *eripro) {
     // EGITEKO
     // Prozesatu eritasunei buruzko informazioa, bakoitzaren maximoa/minimoa eta taldea lortzeko
 
