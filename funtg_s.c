@@ -26,7 +26,7 @@ double distantzia_genetikoa(float *elem1, float *elem2) {
     // kalkulatu bi elementuren arteko distantzia (euklidearra)
     double dist = 0;
 
-    for (int i; i < ALDAKOP; i++) {
+    for (int i = 0; i < ALDAKOP; i++) {
         dist += pow((double) (&elem1[i] - &elem2[i]), 2);
     }
 
@@ -99,7 +99,26 @@ void talde_trinkotasuna(float elem[][ALDAKOP], struct tinfo *kideak, float *trin
 void eritasun_analisia(struct tinfo *kideak, float eri[][ERIMOTA], struct analisia *eripro) {
     // EGITEKO
     // Prozesatu eritasunei buruzko informazioa, bakoitzaren maximoa/minimoa eta taldea lortzeko
+    float bataz_bestekoa = 0;
 
+    for (int i = 0; i < ERIMOTA; i++) {
+        eripro[i].min = 100;
+        eripro[i].max = 0;
+        for (int j = 0; j < TALDEKOP; j++) {
+            for (int k = 0; k < kideak[i].kop; k++) {
+                bataz_bestekoa += eri[kideak[j].osagaiak[k]][i];
+            }
+            bataz_bestekoa = bataz_bestekoa / (float) kideak[i].kop;
+            if (bataz_bestekoa > eripro[i].max) {
+                eripro[i].max = bataz_bestekoa;
+                eripro[i].tmax = j;
+            } else if (bataz_bestekoa < eripro[i].min) {
+                eripro[i].min = bataz_bestekoa;
+                eripro[i].tmin = j;
+            }
+
+        }
+    }
 }
 
 
