@@ -52,7 +52,7 @@ void talde_gertuena(int elekop, float elem[][ALDAKOP], float zent[][ALDAKOP], in
     for (int i = 0; i < elekop; i++) {
         dg_min = DBL_MIN;
         for (int j = 0; j < ALDAKOP; j++) {
-            dg = distantzia_genetikoa(elem[i], elem[j]);
+            dg = distantzia_genetikoa(&elem[i][0], &zent[0][j]);
             if (dg_min > dg) {
                 dg_min = dg;
                 pos = j;
@@ -105,10 +105,10 @@ void eritasun_analisia(struct tinfo *kideak, float eri[][ERIMOTA], struct analis
         eripro[i].min = 100;
         eripro[i].max = 0;
         for (int j = 0; j < TALDEKOP; j++) {
-            for (int k = 0; k < kideak[i].kop; k++) {
+            for (int k = 0; k < kideak[j].kop; k++) {
                 bataz_bestekoa += eri[kideak[j].osagaiak[k]][i];
             }
-            bataz_bestekoa = bataz_bestekoa / (float) kideak[i].kop;
+            bataz_bestekoa = bataz_bestekoa / (float) kideak[j].kop;
             if (bataz_bestekoa > eripro[i].max) {
                 eripro[i].max = bataz_bestekoa;
                 eripro[i].tmax = j;
