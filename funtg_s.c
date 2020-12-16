@@ -112,8 +112,8 @@ void eritasun_analisia(struct tinfo *kideak, float eri[][ERIMOTA], struct analis
     for (int i = 0; i < ERIMOTA; i++) {
         eripro[i].min = DBL_MAX;
         eripro[i].max = DBL_MIN;
-        bataz_bestekoa = 0;
         for (int j = 0; j < TALDEKOP; j++) {
+            bataz_bestekoa = 0;
             for (int k = 0; k < kideak[j].kop; k++) {
                 bataz_bestekoa += eri[kideak[j].osagaiak[k]][i];
             }
