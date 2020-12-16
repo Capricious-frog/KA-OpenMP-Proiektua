@@ -27,7 +27,7 @@ double distantzia_genetikoa(float *elem1, float *elem2) {
     double dist = 0;
 
     for (int i = 0; i < ALDAKOP; i++) {
-        dist += pow((double) (&elem1[i] - &elem2[i]), 2);
+        dist += pow((double) (elem1[i] - elem2[i]), 2);
     }
 
     return sqrt(dist);
@@ -47,12 +47,13 @@ void talde_gertuena(int elekop, float elem[][ALDAKOP], float zent[][ALDAKOP], in
     // sailka: elementu bakoitzaren zentroide hurbilena, haren "taldea"
     double dg;
     double dg_min;
-    int pos = 0;
+    int pos;
 
     for (int i = 0; i < elekop; i++) {
-        dg_min = DBL_MIN;
-        for (int j = 0; j < ALDAKOP; j++) {
-            dg = distantzia_genetikoa(&elem[i][0], &zent[0][j]);
+        dg_min = DBL_MAX;
+        pos = 0;
+        for (int j = 0; j < elekop; j++) {
+            dg = distantzia_genetikoa(&elem[i][0], &zent[j][0]);
             if (dg_min > dg) {
                 dg_min = dg;
                 pos = j;
@@ -79,12 +80,19 @@ void talde_trinkotasuna(float elem[][ALDAKOP], struct tinfo *kideak, float *trin
     for (int i = 0; i < TALDEKOP; i++) {
         batez_bestekoa = 0;
 
-        for (int j = 0; j < kideak[i].kop; j++) {
-            for (int k = 0; k < kideak[i].kop; k++) {
-                batez_bestekoa += distantzia_genetikoa(elem[kideak[i].osagaiak[j]], elem[kideak[i].osagaiak[k]]);
+        if (kideak[i].kop <= 1) {
+            trinko[i] = (float) 0.000;
+        } else {
+            for (int j = 0; j < kideak[i].kop; j++) {
+                for (int k = 0; k < kideak[i].kop; k++) {
+                    batez_bestekoa += distantzia_genetikoa(&elem[kideak[i].osagaiak[j]][0],
+                                                           &elem[kideak[i].osagaiak[k]][0]);
+                }
             }
+
+            // Pow egiten da distantziaren kalkulua errepikatu egiten delako, adib: dist(a, b) eta dist(b, a).
+            trinko[i] = (float) (batez_bestekoa / pow(kideak[i].kop, 2));
         }
-        trinko[i] = (float) (batez_bestekoa / pow(kideak[i].kop, 2)); //Puede que este mal
     }
 }
 
@@ -99,11 +107,12 @@ void talde_trinkotasuna(float elem[][ALDAKOP], struct tinfo *kideak, float *trin
 void eritasun_analisia(struct tinfo *kideak, float eri[][ERIMOTA], struct analisia *eripro) {
     // EGITEKO
     // Prozesatu eritasunei buruzko informazioa, bakoitzaren maximoa/minimoa eta taldea lortzeko
-    float bataz_bestekoa = 0;
+    float bataz_bestekoa;
 
     for (int i = 0; i < ERIMOTA; i++) {
-        eripro[i].min = 100;
-        eripro[i].max = 0;
+        eripro[i].min = DBL_MAX;
+        eripro[i].max = DBL_MIN;
+        bataz_bestekoa = 0;
         for (int j = 0; j < TALDEKOP; j++) {
             for (int k = 0; k < kideak[j].kop; k++) {
                 bataz_bestekoa += eri[kideak[j].osagaiak[k]][i];
