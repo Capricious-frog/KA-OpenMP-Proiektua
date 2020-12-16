@@ -76,22 +76,25 @@ void talde_trinkotasuna(float elem[][ALDAKOP], struct tinfo *kideak, float *trin
     // EGITEKO
     // Kalkulatu taldeen trinkotasuna: kideen arteko distantzien batezbesteko
     double batez_bestekoa;
+    int kont;
 
     for (int i = 0; i < TALDEKOP; i++) {
         batez_bestekoa = 0;
+        kont = 0;
 
         if (kideak[i].kop <= 1) {
             trinko[i] = (float) 0.000;
         } else {
             for (int j = 0; j < kideak[i].kop; j++) {
-                for (int k = 0; k < kideak[i].kop; k++) {
+                for (int k = j + 1; k < kideak[i].kop; k++) {
+                    kont++;
                     batez_bestekoa += distantzia_genetikoa(&elem[kideak[i].osagaiak[j]][0],
                                                            &elem[kideak[i].osagaiak[k]][0]);
                 }
             }
 
             // Pow egiten da distantziaren kalkulua errepikatu egiten delako, adib: dist(a, b) eta dist(b, a).
-            trinko[i] = (float) (batez_bestekoa / pow(kideak[i].kop, 2));
+            trinko[i] = (float) (batez_bestekoa / kont);
         }
     }
 }
