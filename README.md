@@ -1,6 +1,6 @@
 # KA-OpenMP-Proiektua
 ## Exekuzio denborak
-* Seriean
+* Seriean (1000 elementu)
 
 | Iterazio kopurua: | 5       |
 |-------------------|---------|
@@ -14,3 +14,14 @@
 | T_osoa:           | 0.430 s |
     
 * Paraleloan
+
+| Iterazio kopurua: | null    |
+|-------------------|---------|
+| T_irak:           | null  s |
+| T-sailka:         | null  s |
+| T_ordena:         | null  s |
+| T_trinko:         | null  s |
+| T_anal:           | null  s |
+| T_idatzi:         | null  s |
+|===================|=========|
+| T_osoa:           | null s |
