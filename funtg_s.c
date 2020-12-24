@@ -10,6 +10,7 @@
 
 #include <math.h>
 #include <float.h>
+#include <stdio.h>
 
 #include "definetg.h"        // konstanteen definizioak
 
@@ -26,6 +27,7 @@ double distantzia_genetikoa(float *elem1, float *elem2) {
     // kalkulatu bi elementuren arteko distantzia (euklidearra)
     double dist = 0;
 
+    //#pragma omp parallel for shared(elem1, elem2) reduction(+:dist) default(none)
     for (int i = 0; i < ALDAKOP; i++) {
         dist += pow((double) (elem1[i] - elem2[i]), 2);
     }
@@ -45,10 +47,10 @@ double distantzia_genetikoa(float *elem1, float *elem2) {
 void talde_gertuena(int elekop, float elem[][ALDAKOP], float zent[][ALDAKOP], int *sailka) {
     // EGITEKO
     // sailka: elementu bakoitzaren zentroide hurbilena, haren "taldea"
-    double dg;
-    double dg_min;
+    double dg, dg_min;
     int pos;
 
+    #pragma omp parallel for shared(elekop, elem, zent, sailka) private(dg, dg_min, pos) default(none) schedule(static,1)
     for (int i = 0; i < elekop; i++) {
         dg_min = DBL_MAX;
         pos = 0;
@@ -78,6 +80,7 @@ void talde_trinkotasuna(float elem[][ALDAKOP], struct tinfo *kideak, float *trin
     double batez_bestekoa;
     int kont;
 
+    #pragma omp parallel for shared(elem, kideak, trinko) private(kont) reduction(+:batez_bestekoa) default(none) schedule(static,1)
     for (int i = 0; i < TALDEKOP; i++) {
         batez_bestekoa = 0;
         kont = 0;
@@ -93,7 +96,6 @@ void talde_trinkotasuna(float elem[][ALDAKOP], struct tinfo *kideak, float *trin
                 }
             }
 
-            // Pow egiten da distantziaren kalkulua errepikatu egiten delako, adib: dist(a, b) eta dist(b, a).
             trinko[i] = (float) (batez_bestekoa / kont);
         }
     }
@@ -110,22 +112,23 @@ void talde_trinkotasuna(float elem[][ALDAKOP], struct tinfo *kideak, float *trin
 void eritasun_analisia(struct tinfo *kideak, float eri[][ERIMOTA], struct analisia *eripro) {
     // EGITEKO
     // Prozesatu eritasunei buruzko informazioa, bakoitzaren maximoa/minimoa eta taldea lortzeko
-    float bataz_bestekoa;
+    float batez_bestekoa;
 
+    #pragma omp parallel for shared(kideak, eri, eripro) reduction(+:batez_bestekoa) default(none) schedule(static,1)
     for (int i = 0; i < ERIMOTA; i++) {
         eripro[i].min = DBL_MAX;
         eripro[i].max = DBL_MIN;
         for (int j = 0; j < TALDEKOP; j++) {
-            bataz_bestekoa = 0;
+            batez_bestekoa = 0;
             for (int k = 0; k < kideak[j].kop; k++) {
-                bataz_bestekoa += eri[kideak[j].osagaiak[k]][i];
+                batez_bestekoa += eri[kideak[j].osagaiak[k]][i];
             }
-            bataz_bestekoa = bataz_bestekoa / (float) kideak[j].kop;
-            if (bataz_bestekoa > eripro[i].max) {
-                eripro[i].max = bataz_bestekoa;
+            batez_bestekoa = batez_bestekoa / (float) kideak[j].kop;
+            if (batez_bestekoa > eripro[i].max) {
+                eripro[i].max = batez_bestekoa;
                 eripro[i].tmax = j;
-            } else if (bataz_bestekoa < eripro[i].min) {
-                eripro[i].min = bataz_bestekoa;
+            } else if (batez_bestekoa < eripro[i].min) {
+                eripro[i].min = batez_bestekoa;
                 eripro[i].tmin = j;
             }
 

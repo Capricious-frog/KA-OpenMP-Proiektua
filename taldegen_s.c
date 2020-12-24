@@ -57,7 +57,6 @@ void main(int argc, char *argv[]) {
     printf("\n >> Exekuzioa seriean\n");
     clock_gettime(CLOCK_REALTIME, &t1);
 
-
     // irakurri datuak fitxategietatik: elem[i][j] eta eri[i][j]
     // =========================================================
 
@@ -117,7 +116,6 @@ void main(int argc, char *argv[]) {
 
         talde_gertuena(elekop, elem, zent, sailka);
 
-
         // kalkulatu talde bakoitzeko zentroide berriak: dimentsio bakoitzeko batezbestekoa
         // baturak: 100 aldagaien balioak akumulatzeko; azkena kopurua da.
 
@@ -166,6 +164,7 @@ void main(int argc, char *argv[]) {
     // 2. fasea: kontatu talde bakoitzaren elementuen kopurua, kalkulatu taldeen "trinkotasuna"
     //           eta analizatu eritasunak
     // ========================================================================================
+    printf("Bigarrengo fasea");
 
     for (i = 0; i < TALDEKOP; i++) {
         kideak[i].kop = 0;
