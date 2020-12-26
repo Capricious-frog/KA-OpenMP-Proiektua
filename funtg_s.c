@@ -10,7 +10,6 @@
 
 #include <math.h>
 #include <float.h>
-#include <stdio.h>
 
 #include "definetg.h"        // konstanteen definizioak
 
@@ -54,7 +53,7 @@ void talde_gertuena(int elekop, float elem[][ALDAKOP], float zent[][ALDAKOP], in
     for (int i = 0; i < elekop; i++) {
         dg_min = DBL_MAX;
         pos = 0;
-        for (int j = 0; j < elekop; j++) {
+        for (int j = 0; j < TALDEKOP; j++) {
             dg = distantzia_genetikoa(&elem[i][0], &zent[j][0]);
             if (dg_min > dg) {
                 dg_min = dg;
@@ -80,7 +79,7 @@ void talde_trinkotasuna(float elem[][ALDAKOP], struct tinfo *kideak, float *trin
     double batez_bestekoa;
     int kont;
 
-    #pragma omp parallel for shared(elem, kideak, trinko) private(kont) reduction(+:batez_bestekoa) default(none) schedule(static,1)
+    #pragma omp parallel for shared(elem, kideak, trinko) private(kont) reduction(+:batez_bestekoa) default(none) schedule(dynamic)
     for (int i = 0; i < TALDEKOP; i++) {
         batez_bestekoa = 0;
         kont = 0;
@@ -114,7 +113,7 @@ void eritasun_analisia(struct tinfo *kideak, float eri[][ERIMOTA], struct analis
     // Prozesatu eritasunei buruzko informazioa, bakoitzaren maximoa/minimoa eta taldea lortzeko
     float batez_bestekoa;
 
-    #pragma omp parallel for shared(kideak, eri, eripro) reduction(+:batez_bestekoa) default(none) schedule(static,1)
+    #pragma omp parallel for shared(kideak, eri, eripro) reduction(+:batez_bestekoa) default(none) schedule(dynamic)
     for (int i = 0; i < ERIMOTA; i++) {
         eripro[i].min = DBL_MAX;
         eripro[i].max = DBL_MIN;
@@ -135,5 +134,3 @@ void eritasun_analisia(struct tinfo *kideak, float eri[][ERIMOTA], struct analis
         }
     }
 }
-
-
