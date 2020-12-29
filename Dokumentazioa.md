@@ -11,7 +11,6 @@
 * Ondorioak:    6
 * Bibliografia:    7
 
-
 ## Sarrera:
 
 ### Patogenoen laginen analisi genetikoa:
@@ -22,35 +21,27 @@ dbgen.dat fitxategian 200.000 lagin baino gehiago aurkitu dezakegu, 40 datu lagi
 
 Taldeak sailkatu ondoren, talde guztien trinkotasuna kalkulatu behar da, eta beste aldetik talde bakoitzeko laginen infekzioei buruzko informazioa lortu eta prozesatu beharko da, hauen maximoak eta minimoak lortuz, haien taldea barne.
 
-
 ### Hardware ezaugarriak:
 
-PowerEdge R740 (DELL)
-2 Intel Xeon Gold 6130 prozesadore, 16 nukleo - 2,1 GHz
-32 GB RAM (RDIMM - 2666 MT/s)
-NVIDIA QUADRO P4000 (GPU) 
-
-
-
-
-
+* PowerEdge R740 (DELL)
+* 2 Intel Xeon Gold 6130 prozesadore, 16 nukleo - 2,1 GHz
+* 32 GB RAM (RDIMM - 2666 MT/s)
+* NVIDIA QUADRO P4000 (GPU) 
 
 ### Software ezaugarriak:
 
-Sistema eragilea: “Linux”
-Erabilitako programazio lengoaia: “C”
-C-ren konpiladorea “GNU compiler collection (gcc)”
-Fitxategiak editatzeko erabilitako textu-editoreak: “nano” eta “vim”
-PDF egiteko eta konpilatzeko programak: “Drive” eta “Pandoc”
-Paralelizatzeko erabilitako API-a: “OpenMP”
-
+* Sistema eragilea: “Linux”
+* Programazio lengoaia: “C”
+* C-ren konpiladorea: “GNU compiler collection (gcc)”
+* Textu-editoreak: “nano” eta “vim”
+* PDF egiteko eta konpilatzeko programak: “Drive”, “Pandoc” eta "Mathjax"
+* Paralelizatzeko erabilitako API-a: “OpenMP”
 
 ## Oinarri Teorikoak:
 
 Programen exekuzio denborak txikitu ahal izateko, hainbat estrategia edo metodo aurkitu dezakegu, hala nola: Segmentazioa, nukleo gehiagoko prozesadoreak erabiltzea, Cache memoria gehiago erabiltzea etab… Baino guk, programak/funtzioak paralelizatu ditugu horrela azelerazio faktore onak lortuz eta dena eraginkorrago izateko.
 
 Gure kasuan, ez dugu programa osoa paralelizatu, planteatuta zeuden eta egindako funtzioak baizik (“talde_gertuena”, “talde_trinkotasuna”, “eritasun_analisia”). Funtzioaren arabera “static” edo dynamic” erabilitu ditugu. Esan beharra dago “distantzia_genetikoa” funtzioa ez dugula paralelizatu, beharra ez zegoelako.
-
 
 ## Aplikazioak:
 
