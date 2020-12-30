@@ -6,7 +6,7 @@
 * [Patogenoen laginen analisi genetikoa](#patogenoen-laginen-analisi-genetikoa):    2
 * [Hardware ezaugarriak:](#hardware-ezaugarriak)    2
 * [Software ezaugarriak:](#software-ezaugarriak)    3
-* [Oinarri Teorikoak:](#teorikoak)    3
+* [Oinarri Teorikoak:](#Oinarri-teorikoak)    3
 * [Aplikazioak:](#aplikazioak)    4
 * [Ondorioak:](#ondorioak)    6
 * [Bibliografia:](#bibliografia)    7
