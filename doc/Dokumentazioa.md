@@ -1,6 +1,10 @@
-<h1 align = "center"> Txosten Teknikoa </h1>
-<h2 align = "center"> Eritasunen analisi genetikoa </h2>
-<h4 align = "right"> Julen Ortiz eta Jon Ander Blanco </h4>
+% **Txosten Teknikoa**
+% Julen Ortiz; Jon Ander Blanco
+% Eritasunen analisi genetikoa
+
+$\newline$
+$\newline$
+$\newline$
 
 ## Edukien taula:
 
@@ -23,6 +27,8 @@
 7. [Ondorioak:](#ondorioak)
     1. [ONDORIO OROKORRAK:](#ondorio-orokorrak)
 8. [Bibliografia:](#bibliografia)
+
+\newpage
 
 ## Sarrera:
 
@@ -71,9 +77,11 @@ Programaren hasieran bi fitxategiak kargatzen dira memoriara eta 100 zentroide s
 
 Honetarako talde_gertuena talde gertuena funtzioa erabiltzen da, honek elementu bakoitza artu eta zentroide guztientatik gertuena bilatu eta sailka listan zentroidearen indizea gordetzen du.
 
+\newpage
 
 ```
-void talde_gertuena(int elekop, float elem[][ALDAKOP], float zent[][ALDAKOP], int *sailka) {
+void talde_gertuena(int elekop, float elem[][ALDAKOP], 
+                    float zent[][ALDAKOP], int *sailka) {
     double dg, dg_min;
     int pos;
 
@@ -111,8 +119,11 @@ double distantzia_genetikoa(float *elem1, float *elem2) {
 Taldeak sailkatu ondoren, hauen trinkotasuna kalkulatzen da, trinkotasuna, talde bakoitzaren elementuen arteko batez-besteko distantzia da. Zentroideen posizioak balio hauen arabera aldatzen dira. Hau egin ondoren berriro kalkulatzen dira talde gertuenak. Hau hainbat aldiz egin behar da, prozesua zentroideen posizio 0.01-eko edo gutxiagoa denean edo prozesu hay 1000 aldiz egin ondoren gelditzen da.
 Talde trinkotasuna honela kalkulatzen da:
 
+\newpage
+
 ```
-void talde_trinkotasuna(float elem[][ALDAKOP], struct tinfo *kideak, float *trinko) {
+void talde_trinkotasuna(float elem[][ALDAKOP], 
+                        struct tinfo *kideak, float *trinko) {
     double bataz_bestekoa = 0;
     int kont;
     for (int i = 0; i < TALDEKOP; i++) {
@@ -122,7 +133,8 @@ void talde_trinkotasuna(float elem[][ALDAKOP], struct tinfo *kideak, float *trin
         for (int j = 0; j < kideak[i].kop; j++){
           for (int j = 0; j < kideak[i].kop; j++){
               kont++;
-              bataz_bestekoa += distantzia_genetikoa(&elem[kideak[i].osagaiak[j][0],&elem[kideak[i].osagaiak[k][0]);
+              bataz_bestekoa += distantzia_genetikoa(
+                &elem[kideak[i].osagaiak[j][0],&elem[kideak[i].osagaiak[k][0]);
           }
         }
         trinko[i] = (float) (bataz_bestekoa / kont);
@@ -133,10 +145,9 @@ void talde_trinkotasuna(float elem[][ALDAKOP], struct tinfo *kideak, float *trin
 
 Bukatzeko, eritasun guztiei buruz datauk lortzen dira. Talde bakoitzeko hauen batez-besteko presentzia neurtu behar da, haien maximo eta minimoekin (baita ere zein taldetan ematen diren maximo eta minimo horiek).
 
-
 ```
-void eritasunen_analisia(struct tinfo *kideak, float eri[][ERIMOTA], struct analisia *eripro) {
-
+void eritasunen_analisia(struct tinfo *kideak, 
+                        float eri[][ERIMOTA], struct analisia *eripro) {
   float bataz_bestekoa;
 
   for(int i = 0; i < ERIMOTA; i++) {
@@ -173,11 +184,13 @@ Funtzioa hau ez dugu paralelizatu. Funtzio hau paralelizatuz gero, beste funtzio
 Funtzio honetan , “parallel for” erabili dugu. Kasu honetan “schedule(static, 1)”  erabiltzea aukeratu dugu. Exekuzio denbora konstantea denez, komenigarriagoa da “static” erabiltzea. “elekop, elem, zent, sailka” aldagaiak “shared” bezala jarri ditugu ematen dizkiguten bektore edo atributuak direlako eta komeni zaigu balioak mantentzea. Azkenik, “dg, dg_min eta pos” private bezala jarri ditugu loop bakoitzean balio bakarra eta berria erabiltzen direlako (distantzia eta minimoa).
 
 ```
-void talde_gertuena(int elekop, float elem[][ALDAKOP], float zent[][ALDAKOP], int *sailka) {
+void talde_gertuena(int elekop, float elem[][ALDAKOP],
+                    float zent[][ALDAKOP], int *sailka) {
     double dg, dg_min;
     int pos;
 
-#pragma omp parallel for shared(elekop, elem, zent, sailka) private(dg, dg_min, pos) schedule(static, 1)
+#pragma omp parallel for shared(elekop, elem, zent, sailka) 
+    private(dg, dg_min, pos) schedule(static, 1)
 
     for (int i = 0; i < elekop; i++) {
             dg_min = DBL_MAX;
@@ -194,18 +207,22 @@ void talde_gertuena(int elekop, float elem[][ALDAKOP], float zent[][ALDAKOP], in
 }
 ```
 
-![Talde gertuena](barplot_talde_gertuena.png)
+![Talde gertuena](barplot_talde_gertuena.png).
 
 #### talde_trinkotasuna
 
 Funtzio honetan ere “parallel for”-ez baliatu gara paralelizatzeko. Kasu honetan bestean ez bezala, “schedule(dynamic)” erabili dugu. Ez dakigunez zenbat kostatuko zaion exekutatzea funtzioari, komenigarriagoa da “static” erabiltzea, kasu honetan talde bakoitzean ez dakigunez zenbat elementu dauden, hasierako eta bukaerako harien artean diferentzia handia egonez gero, exekuzio denbora handitzen da. Funtzio honetan “reduction(+:bataz_bestekoa)” erabili dugu, “bataz_bestekoa” aldagaian loop bakoitzean zerbait gehitzen zaiolako. “kont” aldagaia loop bakoitzean balio berria duenez, “private” jartzea erabaki dugu. Azkenik, “elem, kideak eta trinko” bektoreak eta matrizeak behin eta berriro horietatik irakurtzen eta lan egiten ari garenez, “shared” bezala jarri behar dira.
 
+\newpage
+
 ```
-void talde_trinkotasuna(float elem[][ALDAKOP], struct tinfo *kideak, float *trinko) {
+void talde_trinkotasuna(float elem[][ALDAKOP],
+                        struct tinfo *kideak, float *trinko) {
     double bataz_bestekoa = 0;
     int kont;
 
-    #pragma omp parallel for shared(elem, kideak, trinko) private(kont) reduction(+:batez_bestekoa) schedule(dynamic)
+    #pragma omp parallel for shared(elem, kideak, trinko)
+        private(kont) reduction(+:batez_bestekoa) schedule(dynamic)
 
     for (int i = 0; i < TALDEKOP; i++) {
         if (kideak[i].kop <= 1) {
@@ -214,7 +231,9 @@ void talde_trinkotasuna(float elem[][ALDAKOP], struct tinfo *kideak, float *trin
             for (int j = 0; j < kideak[i].kop; j++){
                 for (int j = 0; j < kideak[i].kop; j++){
                     kont++;
-                    bataz_bestekoa += distantzia_genetikoa(&elem[kideak[i].osagaiak[j][0],&elem[kideak[i].osagaiak[k][0]);
+                    bataz_bestekoa += distantzia_genetikoa(
+                        &elem[kideak[i].osagaiak[j][0],
+                            &elem[kideak[i].osagaiak[k][0]);
                 }
             }
         trinko[i] = (float) (bataz_bestekoa / kont);
@@ -223,18 +242,20 @@ void talde_trinkotasuna(float elem[][ALDAKOP], struct tinfo *kideak, float *trin
 }
 ```
 
-![Talde trinkotasuna](barplot_talde_trinkotasuna.png)
+![Talde trinkotasuna](barplot_talde_trinkotasuna.png).
 
 #### eritasunen_analisia
 
 Azken funtzio honetan ere “parallel for”-ez baliatu gara paralelizatzeko. talde_trinkotasuna funtzioan bezala, “schedule(dynamic)” erabili dugu, ez dakigunez zenbat kostatuko zaion exekutatzea funtzioari, kasu honetan ere lehen aipatu dugun bezala, ez dakigu bektore eta matrizeen elementuen tamaina, beraz lehen eta azken hariren arteko diferentzia handia izanez gero denbora galduko zen exekuzioan. Funtzio honetan ere “reduction(+:bataz_bestekoa)” erabili dugu, “bataz_bestekoa” aldagaian loop bakoitzean zerbait gehitzen zaiolako. Azkenik, “eri, kideak eta eripro” bektoreak eta matrizeak behin eta berriro horietatik irakurtzen eta datuak gordetzen ari garenez, “shared” bezala jarri behar dira.
 
 ```
-void eritasunen_analisia(struct tinfo *kideak, float eri[][ERIMOTA], struct analisia *eripro) {
+void eritasunen_analisia(struct tinfo *kideak,
+                        float eri[][ERIMOTA], struct analisia *eripro) {
 
     float bataz_bestekoa;
 
-    #pragma omp parallel for shared(kideak, eri, eripro) reduction(+:batez_bestekoa) schedule(dynamic)
+    #pragma omp parallel for shared(kideak, eri, eripro)
+        reduction(+:batez_bestekoa) schedule(dynamic)
 
     for(int i = 0; i < ERIMOTA; i++) {
         eripro[i].min = DBL_MAX;
@@ -257,12 +278,11 @@ void eritasunen_analisia(struct tinfo *kideak, float eri[][ERIMOTA], struct anal
 }
 ```
 
-![Eritasunen analisia](barplot_analisia.png)
+![Eritasunen analisia](barplot_analisia.png).
 
 ## Ondorioak:
 
 ![Denborak](denborak.png)
-
 * Programa exekutatu ondoren ikusten da, seriean paraleloan baino askoz denbora gehiago kostatzen zaiola exekutatzea. Seriean exekutatzerakoan 214 segundu inguru kostatzen zaio, eta paraleloan berriz, lortu dugun exekuzio azkarrena 15 segundu ingurukoa da 32 harirekin (64 harirekin probatu ondoren 13-14 segundu inguru kostatzen zitzaion). Beraz diferentzia handia dago bien artean.
 
 * Hasieran 2 harirekin exekutatu ondoren, diferentzia ikaragarria ere ikusten da seriearekin konparatuz eta hari kopurua handitu ahala exekuzio denbora gero eta txikiagoa da, 8 harirekin izan ezik. 8 harirekin exekutatzerakoan ikusi dugu 4 harirekin baino denbora gehiago kostatzen zaiola baino gero 16 harirekin denbora gutxiago kostatzen zaio.
@@ -270,14 +290,12 @@ void eritasunen_analisia(struct tinfo *kideak, float eri[][ERIMOTA], struct anal
 * Exekuziotik-exekuziora deborak aldatu egiten dira (sistema eragilearengaitik, beste programa gehiago daudelako exekutatzen, etab) eta gure ustez 4 hariko exekuzioa batez-beste baino azkarrago bukatu da eta 8 harirekin batez-beste baino motelagoa izan da, horregatik 8 harirekin motelagoa dela dirudi.
 
 ![Denbora totala](denbora_totala.png)
-
 * Azelerazio-faktoreen aldetik ikusi dezakegu geroz eta hari gehiago, orduan eta azelerazio faktorea handiagoa lortzen dugula (8 harirekin izan ezik). 32 hari erabilita, ikusi dezakegu diferentzia handia dagoela beste kasuekin konparatuz.
 
 ![Azelerazio faktorea](azelerazio_faktorea.png)
-
 * Eraginkortasunaren aldetik, ikusi dezakegu, 2-4 harirekin gure exekuzioa eraginkortasuna oso altua dela (0.9  eta 0.94 ematen dute [1-etik gertu]). Baino gero hariak handitu ahala ikusi dezakegu eraginkortasuna asko jaisten dela, 0.4 ingurura.
 
-![Eraginkortasuna](eraginkortasuna.png)
+![Eraginkortasuna](eraginkortasuna.png).
 
 ### ONDORIO OROKORRAK:
 
@@ -286,6 +304,6 @@ Denbora, azelerazio-faktoreak eta erangikortasunak ikusi ondoren, 2-4 harirekin 
 
 ## Bibliografia:
 
-Wikipedia - [Euklidean distance](https://en.wikipedia.org/wiki/Euclidean_distance) - k-means clustering
-Egela - [OpenMP apunteak](http://egela.ehu.eus) - Agustin Arruabarrena
-Markdown - [Sintaxia](https://www.markdownguide.org) - Matt Cone
+* Wikipedia - [Euklidean distance](https://en.wikipedia.org/wiki/Euclidean_distance) - k-means clustering
+* Egela - [OpenMP apunteak](http://egela.ehu.eus) - Agustin Arruabarrena
+* Markdown - [Sintaxia](https://www.markdownguide.org) - Matt Cone
