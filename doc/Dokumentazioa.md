@@ -2,14 +2,14 @@
 <h2 align = "center"> Eritasunen analisi genetikoa </h2>
 <h4 align = "right"> Julen Ortiz eta Jon Ander Blanco </h4>
 
-* Sarrera:    2
-* Patogenoen laginen analisi genetikoa:    2
-* Hardware ezaugarriak:    2
-* Software ezaugarriak:    3
-* Oinarri Teorikoak:    3
-* Aplikazioak:    4
-* Ondorioak:    6
-* Bibliografia:    7
+* [Sarrera:](#sarrera)    2
+* [Patogenoen laginen analisi genetikoa](#patogenoen-laginen-analisi-genetikoa):    2
+* [Hardware ezaugarriak:](#hardware-ezaugarriak)    2
+* [Software ezaugarriak:](#software-ezaugarriak)    3
+* [Oinarri Teorikoak:](#teorikoak)    3
+* [Aplikazioak:](#aplikazioak)    4
+* [Ondorioak:](#ondorioak)    6
+* [Bibliografia:](#bibliografia)    7
 
 ## Sarrera:
 
