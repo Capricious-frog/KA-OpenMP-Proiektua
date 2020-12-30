@@ -2,6 +2,8 @@
 <h2 align = "center"> Eritasunen analisi genetikoa </h2>
 <h4 align = "right"> Julen Ortiz eta Jon Ander Blanco </h4>
 
+## Edukien taula:
+
 * [Sarrera:](#sarrera)    2
 * [Patogenoen laginen analisi genetikoa](#patogenoen-laginen-analisi-genetikoa):    2
 * [Hardware ezaugarriak:](#hardware-ezaugarriak)    2
