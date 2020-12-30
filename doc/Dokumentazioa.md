@@ -261,15 +261,28 @@ void eritasunen_analisia(struct tinfo *kideak, float eri[][ERIMOTA], struct anal
 
 ## Ondorioak:
 
-* Programa exekutatu ondoren ikusten da, seriean paraleloan baino askoz denbora gehiago kostatzen zaiola exekutatzea. Seriean exekutatzerakoan 214 segundu inguru kostatzen zaio, eta paraleloan berriz, lortu dugun exekuzio azkarrena 15 segundu ingurukoa da 32 harirekin (64 harirekin probatu ondoren 13-14 segundu inguru kostatzen zitzaion. Beraz diferentzia handia dago bien artean. Hasieran 2 harirekin exekutatu ondoren, diferentzia ikaragarria ere ikusten da seriearekin konparatuz  eta hariak handitu ahala exekuzio denbora gero eta txikiagoa da, 8 harirekin ez ezik. 8 harirekin exekutatzerakoan ikusi dugu 4 harirekin baino denbora gehiago kostatzen zaiola baino gero 16 harirekin denbora gutxiago kostatzen zaio. Aipatzekoa da ere bai, goian grafikoetan ikusten denez, taldeak sailkatzen dituen funtzioak programan exekutatzen gehien kostatzen zaion zatia da, eta exekuzio denboraren zati gehiena da.
+![Denborak](denborak.png)
 
-* Azelerazio-faktoreen aldetik ikusi dezakegu geroz eta hari gehiagorekin exekutatu, orduan eta azelerazio faktorea handiago, 8 harirekin ez ezik. 32 hari erabilita, ikusi dezakegu diferentzia handia dagoela beste kasuekin konparatuz baino 32 hari erabiltzen direnez ez da oso eraginkorra (16rekin 5,25 inguru dago eta 32rekin berriz, 13.52).
+* Programa exekutatu ondoren ikusten da, seriean paraleloan baino askoz denbora gehiago kostatzen zaiola exekutatzea. Seriean exekutatzerakoan 214 segundu inguru kostatzen zaio, eta paraleloan berriz, lortu dugun exekuzio azkarrena 15 segundu ingurukoa da 32 harirekin (64 harirekin probatu ondoren 13-14 segundu inguru kostatzen zitzaion). Beraz diferentzia handia dago bien artean.
 
-* Eraginkortasunaren aldetik, ikusi dezakegu, 2-4 harirekin gure exekuzioa oso eraginkorra dela (0.9  eta 0.94 ematen dute [1-etik gertu]). Baino gero hariak handitu ahala ikusi dezakegu eraginkortasuna asko jaisten dela, 0.4 ingurura.
+* Hasieran 2 harirekin exekutatu ondoren, diferentzia ikaragarria ere ikusten da seriearekin konparatuz eta hari kopurua handitu ahala exekuzio denbora gero eta txikiagoa da, 8 harirekin izan ezik. 8 harirekin exekutatzerakoan ikusi dugu 4 harirekin baino denbora gehiago kostatzen zaiola baino gero 16 harirekin denbora gutxiago kostatzen zaio.
+
+* Exekuziotik-exekuziora deborak aldatu egiten dira (sistema eragilearengaitik, beste programa gehiago daudelako exekutatzen, etab) eta gure ustez 4 hariko exekuzioa batez-beste baino azkarrago bukatu da eta 8 harirekin batez-beste baino motelagoa izan da, horregatik 8 harirekin motelagoa dela dirudi.
+
+![Denbora totala](denbora_totala.png)
+
+* Azelerazio-faktoreen aldetik ikusi dezakegu geroz eta hari gehiago, orduan eta azelerazio faktorea handiagoa lortzen dugula (8 harirekin izan ezik). 32 hari erabilita, ikusi dezakegu diferentzia handia dagoela beste kasuekin konparatuz.
+
+![Azelerazio faktorea](azelerazio_faktorea.png)
+
+* Eraginkortasunaren aldetik, ikusi dezakegu, 2-4 harirekin gure exekuzioa eraginkortasuna oso altua dela (0.9  eta 0.94 ematen dute [1-etik gertu]). Baino gero hariak handitu ahala ikusi dezakegu eraginkortasuna asko jaisten dela, 0.4 ingurura.
+
+![Eraginkortasuna](eraginkortasuna.png)
 
 ### ONDORIO OROKORRAK:
 
-Denborak, azelerazio-faktoreak eta erangikortasunak ikusi ondoren, 2-4 harirekin exekutatzea aukerarik hobeena dela pentsatzen dugu. Nahiz eta hari kopurua handitu ahala exekuzio denbora gutxitzen den, nabaria da ez dela oso eraginkorra. Hasieran ikusi dezakegu oso azkar denbora gutxitzen dela baino azkenean geroz eta gehiago kostatzen zaio azkarrago exekutatzea programa osoari.
+Denbora, azelerazio-faktoreak eta erangikortasunak ikusi ondoren, 2-4 harirekin exekutatzea aukerarik hoberena dela pentsatzen dugu. Nahiz eta hari kopurua handitu eta exekuzio denbora gutxitzen den, abiadura diferentzia gero eta txikiagoa da. Hasieran ikusi dezakegu denbora oso azkar gutxitzen dela, baino azkenean geroz eta gehiago kostatzen zaio azkarrago exekutatzea programa osoari.
+
 
 ## Bibliografia:
 
