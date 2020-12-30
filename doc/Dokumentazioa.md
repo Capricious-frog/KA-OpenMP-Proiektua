@@ -4,14 +4,25 @@
 
 ## Edukien taula:
 
-* [Sarrera:](#sarrera)    2
-* [Patogenoen laginen analisi genetikoa](#patogenoen-laginen-analisi-genetikoa):    2
-* [Hardware ezaugarriak:](#hardware-ezaugarriak)    2
-* [Software ezaugarriak:](#software-ezaugarriak)    3
-* [Oinarri Teorikoak:](#Oinarri-teorikoak)    3
-* [Aplikazioak:](#aplikazioak)    4
-* [Ondorioak:](#ondorioak)    6
-* [Bibliografia:](#bibliografia)    7
+1. [Sarrera:](#sarrera)
+    1. [Patogenoen laginen analisi genetikoa](#patogenoen-laginen-analisi-genetikoa)
+    2. [Hardware ezaugarriak](#hardware-ezaugarriak)
+    3. [Software ezaugarriak](#software-ezaugarriak)
+2. [Oinarri Teorikoak:](#oinarri-teorikoak)
+3. [Aplikazioak:](#aplikazioak)
+    1. [SERIEAN:](#seriean)
+        1. [talde_gertuena](#talde_gertuena)
+        2. [distantzia_genetikoa](#distantzia_genetikoa)
+        3. [talde_trinkotasuna](#talde_trinkotasuna)
+        4. [eritasunen_analisia](#eritasunen_analisia)
+    2. [PARALELOAN:](#paraleloan)
+        1. [distantzia_genetikoa](#talde_gertuena)
+        2. [talde_gertuena](#distantzia_genetikoa)
+        3. [talde_trinkotasuna](#talde_trinkotasuna)
+        4. [eritasunen_analisia](#eritasunen_analisia)
+7. [Ondorioak:](#ondorioak)
+    1. [ONDORIO OROKORRAK:](#ondorio-orokorrak)
+8. [Bibliografia:](#bibliografia)
 
 ## Sarrera:
 
